@@ -1,0 +1,13 @@
+html {
+    text-align: center;
+}
+
+h1 {
+    color: red;
+}
+
+p {
+    font-size: large;
+    border-style: ridge;
+    border-radius: 15%;
+}
