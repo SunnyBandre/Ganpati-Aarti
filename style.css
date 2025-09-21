@@ -1,13 +1,13 @@
-html {
-    text-align: center;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
 }
 
-h1 {
-    color: red;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #87462a;
+  border-radius: 10px;
 }
 
-p {
-    font-size: large;
-    border-style: ridge;
-    border-radius: 15%;
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e4bfbf, #ffe9e9);
+  border-radius: 10px;
 }
