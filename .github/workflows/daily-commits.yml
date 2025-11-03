@@ -1,0 +1,24 @@
+name: Daily Artificial Commits
+
+on:
+  schedule:
+    # Run every 1.5 hours (16 times a day)
+    - cron: "*/90 * * * *"
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create empty commit
+        run: |
+          git commit --allow-empty -m "Automated commit to maintain streak - $(date -u +"%Y-%m-%d %H:%M:%S")"
+          git push origin HEAD:main
