@@ -4,6 +4,7 @@ on:
   schedule:
     # Run every 1.5 hours (16 times a day)
     - cron: "*/90 * * * *"
+  workflow_dispatch:   # <-- Add this line
 
 jobs:
   commit:
