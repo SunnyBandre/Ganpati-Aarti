@@ -1,16 +1,17 @@
-name: Daily Artificial Commits
+name: Daily Artificial Contributions
 
 on:
   schedule:
     # Run every 1.5 hours (16 times a day)
     - cron: "*/90 * * * *"
-  workflow_dispatch:   # <-- Add this line
+  workflow_dispatch:
 
 jobs:
-  commit:
+  commit-and-contribute:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Commit for Contribution
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
@@ -25,7 +26,27 @@ jobs:
       - name: Pull latest changes from remote
         run: git pull origin main --rebase
 
-      - name: Create empty commit
+      - name: Update timestamp file and commit
         run: |
-          git commit --allow-empty -m "Automated commit to maintain streak - $(date -u +"%Y-%m-%d %H:%M:%S")"
+          echo "Commit at $(date)" >> timestamp.txt
+          git add timestamp.txt
+          git commit -m "Update timestamp for contribution streak - $(date -u +"%Y-%m-%d %H:%M:%S")"
           git push origin HEAD:main
+
+      # 2. Open Issue for Contribution
+      - name: Create GitHub Issue
+        uses: peter-evans/create-issue@v4
+        with:
+          title: "Daily Automated Issue on $(date -u +"%Y-%m-%d")"
+          body: "This issue was opened by the daily streak workflow."
+
+      # 3. Create Pull Request for Contribution
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: "auto-pr-$(date +'%Y%m%d%H%M%S')"
+          title: "Automated Pull Request for streak"
+          body: "This PR was opened by the daily streak workflow."
+          commit-message: "Automated PR commit for streak"
+          base: main
+          delete-branch: true
